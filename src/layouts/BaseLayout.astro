@@ -1,78 +1,50 @@
 ---
-import ThemeToggle from '../components/ThemeToggle.astro';
-import '../styles/gruvbox.css';
-const { title } = Astro.props;
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = site.name,
+  description = site.shortBio,
+} = Astro.props;
+
+const fullTitle = title === site.name ? `${site.name} — ${site.role}` : `${title} · ${site.name}`;
 ---
 
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>{title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <title>{fullTitle}</title>
 
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <script is:inline>
+      (() => {
+        const t = localStorage.getItem('theme') ||
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
-    <body>
-        <ThemeToggle />
-       <main class="container">
-         <slot />
-       </main>
-    </body>
+  <body>
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
 </html>
-
-<style>
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1rem;
-      background: var(--bg);
-      z-index: 100;
-    }
-
-   nav {
-     display: flex;
-     gap: 1rem;
-   }
-
-   nav a {
-     color: var(--fg);
-     text-decoration: none;
-     padding: 0.5rem;
-     border-radius: 4px;
-     transition: all 0.2s;
-     position: relative;
-   }
-
-   nav a.active::after {
-     content: '';
-     position: absolute;
-     bottom: -4px;
-     left: 50%;
-     transform: translateX(-50%);
-     width: 80%;
-     height: 3px;
-     box-shadow: 0 2px 0 var(--fg);
-   }
-
-   nav a:hover {
-     background: var(--bg-soft);
-   }
-
-      .container {
-        max-width: 1220px;
-        margin: 0rem auto 0;
-        padding: 0 2rem;
-      }
-
-
-
-   @keyframes fadeIn {
-     from { opacity: 0; transform: translateY(20px); }
-     to { opacity: 1; transform: translateY(0); }
-   }
-</style>
