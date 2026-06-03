@@ -1,0 +1,281 @@
+/* ============================================================
+   Erick López — Portfolio
+   Minimalist, warm "paper" aesthetic (Zen / Claude palette)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap');
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ----------------------------------------------------------------
+   Design tokens
+   ---------------------------------------------------------------- */
+:root {
+  /* Warm paper light theme (Claude-inspired) */
+  --bg:            #f5f4ee;
+  --bg-elevated:   #fbfaf6;
+  --surface:       #efece3;
+  --surface-hover: #e9e5da;
+
+  --text:        #20201d;
+  --text-muted:  #6a685f;
+  --text-faint:  #97948a;
+
+  --border:        #e2dfd3;
+  --border-strong: #d3cfc0;
+
+  --accent:        #c15f3c; /* Claude clay / terracotta */
+  --accent-hover:  #a94e2e;
+  --accent-soft:   rgba(193, 95, 60, 0.10);
+
+  --shadow-sm: 0 1px 2px rgba(40, 35, 25, 0.04);
+  --shadow-md: 0 4px 24px -8px rgba(40, 35, 25, 0.10);
+  --shadow-lg: 0 18px 48px -16px rgba(40, 35, 25, 0.16);
+
+  --radius:    14px;
+  --radius-sm: 9px;
+  --maxw: 1080px;
+
+  --font-serif: 'Fraunces', 'Georgia', 'Times New Roman', serif;
+  --font-sans:  'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-theme='dark'] {
+  --bg:            #1c1b19;
+  --bg-elevated:   #242321;
+  --surface:       #2a2926;
+  --surface-hover: #322f2b;
+
+  --text:        #f3f1ea;
+  --text-muted:  #a8a59b;
+  --text-faint:  #76736a;
+
+  --border:        #34322e;
+  --border-strong: #423f3a;
+
+  --accent:        #d97757; /* Claude clay (dark) */
+  --accent-hover:  #e8916f;
+  --accent-soft:   rgba(217, 119, 87, 0.14);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-md: 0 6px 28px -10px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 22px 56px -18px rgba(0, 0, 0, 0.65);
+}
+
+/* ----------------------------------------------------------------
+   Reset & base
+   ---------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+/* Subtle grain-free warm gradient backdrop */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(1100px 560px at 78% -8%, var(--accent-soft), transparent 60%);
+  opacity: 0.9;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text);
+}
+
+p { margin: 0; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+a:hover { color: var(--accent-hover); }
+
+img { display: block; max-width: 100%; }
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+code, pre {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2.5rem 0;
+}
+
+/* ----------------------------------------------------------------
+   Layout helpers
+   ---------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+main {
+  min-height: 70vh;
+  padding-top: 6rem;
+  padding-bottom: 5rem;
+}
+
+/* Mono label / eyebrow */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* Section heading block */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin-bottom: 2.5rem;
+}
+.section-head h1,
+.section-head h2 {
+  font-size: clamp(2rem, 5vw, 2.9rem);
+}
+.section-head .count {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+
+/* Pills / tags */
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.22rem 0.55rem;
+  border-radius: 100px;
+  white-space: nowrap;
+  transition: all 0.2s var(--ease);
+}
+
+/* Buttons / links with arrow */
+.link-arrow {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.link-arrow .arr { transition: transform 0.25s var(--ease); }
+.link-arrow:hover .arr { transform: translateX(3px); }
+
+/* Reveal on load / scroll */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: rise 0.7s var(--ease) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto;
+  }
+  .reveal { opacity: 1; }
+}
+
+/* ----------------------------------------------------------------
+   Prose (project detail markdown)
+   ---------------------------------------------------------------- */
+.prose { color: var(--text); line-height: 1.75; }
+.prose > * + * { margin-top: 1.15rem; }
+.prose h1 { font-size: clamp(2rem, 5vw, 2.7rem); margin-top: 0; }
+.prose h2 {
+  font-size: 1.5rem;
+  margin-top: 2.4rem;
+  padding-bottom: 0.4rem;
+}
+.prose h3 { font-size: 1.18rem; margin-top: 1.8rem; }
+.prose ul, .prose ol { padding-left: 1.3rem; }
+.prose li { margin-top: 0.4rem; }
+.prose li::marker { color: var(--accent); }
+.prose strong { font-weight: 600; }
+.prose a { text-decoration: underline; text-underline-offset: 3px; }
+.prose code {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 0.12em 0.4em;
+  border-radius: 5px;
+}
+.prose pre {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+  overflow-x: auto;
+  line-height: 1.55;
+}
+.prose pre code { background: none; border: none; padding: 0; }
+.prose img { border-radius: var(--radius-sm); margin: 1.5rem 0; }
